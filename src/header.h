@@ -38,6 +38,8 @@ using namespace std;
 
 using namespace std;
 
+#define CONFIG_PATH "/tmp/config.txt"
+
 class ToString {
 protected:
 	std::stringstream m_stream;

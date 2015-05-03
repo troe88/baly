@@ -4,16 +4,22 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../src/daemon.cpp \
-../src/helper.cpp 
+../src/ConfigReader.cpp \
+../src/Daemon.cpp \
+../src/helper.cpp \
+../src/main.cpp 
 
 OBJS += \
-./src/daemon.o \
-./src/helper.o 
+./src/ConfigReader.o \
+./src/Daemon.o \
+./src/helper.o \
+./src/main.o 
 
 CPP_DEPS += \
-./src/daemon.d \
-./src/helper.d 
+./src/ConfigReader.d \
+./src/Daemon.d \
+./src/helper.d \
+./src/main.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

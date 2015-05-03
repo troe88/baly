@@ -5,9 +5,11 @@
 // Copyright   : GPL
 // Description : Hello World in C++, Ansi-style
 //============================================================================
-#include "header.h"
 #include <ostream>
+#include "Daemon.h"
 //#define DAEMON
+
+Daemon dmn;
 
 void signal_handler(int sig) {
 	switch (sig) {
@@ -16,7 +18,7 @@ void signal_handler(int sig) {
 		break;
 	case SIGTERM:
 		syslog(LOG_INFO, "Close daemon...\n");
-		exit(0);
+		dmn.close();
 		break;
 	}
 }
@@ -44,8 +46,9 @@ int main(int argc, char **argv) {
 #endif
 
 // CODE
+			dmn = Daemon();
+			dmn.start();
 
-			my_print(0, ToString() << "qwe");
 
 #ifdef DAEMON
 	break;

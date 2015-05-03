@@ -6,11 +6,11 @@ void my_print(int type,const std::string &data){
 #else
 	switch (type) {
 		case LOG_ERR:
-			std::cerr << data;
+			std::cerr << data << std::endl;
 			break;
 		case LOG_INFO:
 		default:
-			std::cout << data;
+			std::cout << data << std::endl;
 			break;
 	}
 #endif
