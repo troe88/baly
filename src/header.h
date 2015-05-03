@@ -17,10 +17,9 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <map>
 #include <fstream>
 #include <iostream>
-#include <string>
-using namespace std;
 
 #include <string>
 #include <stdio.h>
@@ -35,6 +34,13 @@ using namespace std;
 #include <errno.h>
 #include <unistd.h>
 #include <syslog.h>
+
+#include <ftw.h>
+#include <stdio.h>
+#include <sys/stat.h>
+#include <string.h>
+#include <sys/inotify.h>
+#include <sys/select.h>
 
 using namespace std;
 
@@ -55,5 +61,6 @@ public:
 };
 
 void my_print(int type, const std::string &data);
+void my_print(const std::string &data);
 
 #endif /* HEADER_H_ */

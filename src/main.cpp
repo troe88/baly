@@ -15,10 +15,11 @@ void signal_handler(int sig) {
 	switch (sig) {
 	case SIGHUP:
 		syslog(LOG_INFO, "Reload conf file\n");
+		dmn.reup();
 		break;
 	case SIGTERM:
 		syslog(LOG_INFO, "Close daemon...\n");
-		dmn.close();
+		dmn.die();
 		break;
 	}
 }
@@ -48,7 +49,7 @@ int main(int argc, char **argv) {
 // CODE
 			dmn = Daemon();
 			dmn.start();
-
+			exit(0);
 
 #ifdef DAEMON
 	break;

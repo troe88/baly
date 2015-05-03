@@ -1,5 +1,9 @@
 #include "header.h"
 
+void my_print(const std::string &data){
+	my_print(LOG_INFO, data);
+}
+
 void my_print(int type,const std::string &data){
 #ifdef DAEMON
 	syslog(type, data.c_str());
@@ -15,3 +19,5 @@ void my_print(int type,const std::string &data){
 	}
 #endif
 }
+
+
