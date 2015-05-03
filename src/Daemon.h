@@ -33,6 +33,14 @@ private:
 	void setWatcher(const std::string &cur_dir);
 	void process();
 	void dispalyEvent(struct inotify_event *event);
+	int haveMsg() {
+		fd_set rfds;
+		FD_ZERO(&rfds);
+		FD_SET(this->_inotify_discriptor, &rfds);
+		if (select(FD_SETSIZE, &rfds, NULL, NULL, NULL) > 0)
+			return 1;
+		return false;
+	}
 };
 
 #endif /* DAEMON_H_ */

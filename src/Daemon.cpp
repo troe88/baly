@@ -22,7 +22,6 @@ int ftw_handler(const char *name, const struct stat *status, int type) {
 }
 
 Daemon::Daemon() {
-	// TODO Auto-generated constructor stub
 	_inotify_discriptor = 0;
 	_is_running = true;
 	_is_need_reup = true;
@@ -31,6 +30,26 @@ Daemon::Daemon() {
 void Daemon::start() {
 	my_print(LOG_INFO, ToString() << "Daemon is start...");
 	process();
+}
+
+void Daemon::process() {
+	while (_is_running) {
+		if (_is_need_reup) {
+			clearData();
+			if (init() < 0)
+				return;
+			_is_need_reup = false;
+		}
+		if (haveMsg()) {
+			char buffer[256];
+			read(this->_inotify_discriptor, buffer, 256);
+			struct inotify_event *event =
+					(struct inotify_event *) &buffer[(size_t) 0];
+			dispalyEvent(event);
+		}
+	}
+	close(this->_inotify_discriptor);
+	my_print(LOG_INFO, ToString() << "Daemon is close...");
 }
 
 int Daemon::init() {
@@ -64,10 +83,6 @@ int Daemon::init() {
 	return 0;
 }
 
-void Daemon::clearData() {
-	Daemon::_in_dir.clear();
-	Daemon::dir.clear();
-}
 
 void Daemon::setWatcher(const std::string &cur_dir) {
 	int watch_dir_index = inotify_add_watch(_inotify_discriptor,
@@ -80,30 +95,6 @@ void Daemon::setWatcher(const std::string &cur_dir) {
 		Daemon::_in_dir[watch_dir_index] = cur_dir;
 		my_print(LOG_INFO, ToString() << "add watcher to " << cur_dir);
 	}
-}
-
-void Daemon::process() {
-	while (_is_running) {
-		if (_is_need_reup) {
-			clearData();
-			if (init() < 0)
-				return;
-			_is_need_reup = false;
-		}
-
-		fd_set rfds;
-		FD_ZERO(&rfds);
-		FD_SET(this->_inotify_discriptor, &rfds);
-		if (select(FD_SETSIZE, &rfds, NULL, NULL, NULL) > 0) {
-			char buffer[256];
-			read(this->_inotify_discriptor, buffer, 256);
-			struct inotify_event *event =
-					(struct inotify_event *) &buffer[(size_t) 0];
-			dispalyEvent(event);
-		}
-	}
-	close(this->_inotify_discriptor);
-	my_print(LOG_INFO, ToString() << "Daemon is close...");
 }
 
 void Daemon::dispalyEvent(struct inotify_event *event) {
@@ -190,4 +181,9 @@ void Daemon::dispalyEvent(struct inotify_event *event) {
 		break;
 	}
 	my_print(LOG_INFO, stream.str());
+}
+
+void Daemon::clearData() {
+	Daemon::_in_dir.clear();
+	Daemon::dir.clear();
 }
