@@ -7,7 +7,7 @@
 
 #include "Daemon.h"
 #include "ConfigReader.h"
-
+#define EVENT struct inotify_event *
 std::vector<std::string> Daemon::dir;
 std::map<int, std::string> Daemon::_in_dir;
 
@@ -40,11 +40,10 @@ void Daemon::process() {
 				return;
 			_is_need_reup = false;
 		}
-		if (haveMsg()) {
+		if (haveEvent()) {
 			char buffer[256];
 			read(this->_inotify_discriptor, buffer, 256);
-			struct inotify_event *event =
-					(struct inotify_event *) &buffer[(size_t) 0];
+			EVENT event = (EVENT)&buffer[(size_t) 0];
 			dispalyEvent(event);
 		}
 	}
@@ -82,7 +81,6 @@ int Daemon::init() {
 	cout << Daemon::_in_dir.size() << endl;
 	return 0;
 }
-
 
 void Daemon::setWatcher(const std::string &cur_dir) {
 	int watch_dir_index = inotify_add_watch(_inotify_discriptor,

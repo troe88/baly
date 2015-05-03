@@ -33,7 +33,7 @@ private:
 	void setWatcher(const std::string &cur_dir);
 	void process();
 	void dispalyEvent(struct inotify_event *event);
-	int haveMsg() {
+	int haveEvent() {
 		fd_set rfds;
 		FD_ZERO(&rfds);
 		FD_SET(this->_inotify_discriptor, &rfds);
