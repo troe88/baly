@@ -28,7 +28,7 @@ public:
 		_is_need_reup = true;
 	}
 private:
-	void init();
+	int init();
 	void clearData();
 	void setWatcher(const std::string &cur_dir);
 	void process();

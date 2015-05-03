@@ -14,11 +14,9 @@ Daemon dmn;
 void signal_handler(int sig) {
 	switch (sig) {
 	case SIGHUP:
-		syslog(LOG_INFO, "Reload conf file\n");
 		dmn.reup();
 		break;
 	case SIGTERM:
-		syslog(LOG_INFO, "Close daemon...\n");
 		dmn.die();
 		break;
 	}
@@ -43,7 +41,6 @@ int main(int argc, char **argv) {
 			signal(SIGHUP, signal_handler);
 			signal(SIGTERM, signal_handler);
 			openlog("daemon", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL1);
-//		srv_print(MakeString() << "Daemon is start...", LOG_INFO);
 #endif
 
 // CODE

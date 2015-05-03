@@ -33,26 +33,35 @@ void Daemon::start() {
 	process();
 }
 
-void Daemon::init() {
+int Daemon::init() {
 	try {
 		ConfigReader::read(CONFIG_PATH);
 	} catch (const char* msg) {
 		this->_is_running = false;
 		my_print(LOG_ERR, ToString() << msg);
+		return -1;
 	}
 
 	ftw(ConfigReader::_input_path.c_str(), ftw_handler, 1);
+
+	if(Daemon::dir.empty()){
+		my_print(LOG_ERR, ToString() << "Directory list is empty");
+		return -1;
+	}
 
 	_inotify_discriptor = inotify_init();
 	if (_inotify_discriptor < 0) {
 		my_print(LOG_ERR,
 				ToString() << "initify init error" << strerror(errno));
 		this->_is_running = false;
+		return -1;
 	}
-
 	for (std::size_t i = 0; i < Daemon::dir.size(); i++) {
-		setWatcher(Daemon::dir.at(i));
+		std::string temp = Daemon::dir.at(i);
+		setWatcher(temp);
 	}
+	cout << Daemon::_in_dir.size() << endl;
+	return 0;
 }
 
 void Daemon::clearData() {
@@ -77,9 +86,11 @@ void Daemon::process() {
 	while (_is_running) {
 		if (_is_need_reup) {
 			clearData();
-			init();
+			if (init() < 0)
+				return;
 			_is_need_reup = false;
 		}
+
 		fd_set rfds;
 		FD_ZERO(&rfds);
 		FD_SET(this->_inotify_discriptor, &rfds);
