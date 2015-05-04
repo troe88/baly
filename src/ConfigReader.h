@@ -9,12 +9,12 @@
 #define CONFIGREADER_H_
 #include "header.h"
 
-static class ConfigReader {
+class ConfigReader {
+	static std::string _server_path;
 public:
 	ConfigReader();
-	static void read(const std::string& path){
-		my_print(LOG_INFO, ToString() << "Read config: " << path);
-	}
-} CfgR;
+	static void read(const std::string& path);
+	static std::string& getPath();
+};
 
 #endif /* CONFIGREADER_H_ */

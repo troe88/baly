@@ -18,7 +18,7 @@ void signal_handler(int sig) {
 		break;
 	case SIGTERM:
 		syslog(LOG_INFO, "Close daemon...\n");
-		dmn.close();
+		dmn.die();
 		break;
 	}
 }

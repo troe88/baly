@@ -11,12 +11,23 @@
 #include "ConfigReader.h"
 
 class Daemon {
-	std::vector<std::string> dir;
+private:
+	int _socket;
+	int _client_fd;
+	struct sockaddr_in _client_address;
+	socklen_t _sin_len;
+	char *buf;
+
+private:
+	int checkDirExist(const std::string& dir);
+	const std::string _recv();
+	void process();
+	int haveConnect();
 
 public:
 	Daemon();
 	void start();
-	void close();
+	void die();
 };
 
 #endif /* DAEMON_H_ */
