@@ -21,7 +21,7 @@ void ConfigReader::read(const std::string& path) {
 	if (file.is_open()) {
 		file >> _input_path >> _time;
 	} else {
-		std::string msg = ToString() << "Can't config file " << path;
+		std::string msg = ToString() << "Can't read config file " << path;
 		throw msg.c_str();
 		return;
 	}
