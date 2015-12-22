@@ -118,7 +118,6 @@ void Daemon::dispalyEvent(struct inotify_event *event) {
 	case IN_ACCESS:
 		stream << "IN_ACCESS" << endl;
 		return;
-		break;
 	case IN_MODIFY:
 		stream << "IN_MODIFY" << endl;
 		break;
@@ -128,15 +127,12 @@ void Daemon::dispalyEvent(struct inotify_event *event) {
 	case IN_CLOSE_WRITE:
 		stream << "IN_CLOSE_WRITE" << endl;
 		return;
-		break;
 	case IN_CLOSE_NOWRITE:
 		stream << "IN_CLOSE_NOWRITE" << endl;
 		return;
-		break;
 	case IN_CLOSE:
 		stream << "IN_CLOSE" << endl;
 		return;
-		break;
 	case IN_OPEN:
 		stream << "IN_OPEN" << endl;
 		return;
@@ -144,7 +140,6 @@ void Daemon::dispalyEvent(struct inotify_event *event) {
 	case IN_MOVED_FROM:
 		stream << "IN_MOVED_FROM" << endl;
 		return;
-		break;
 	case IN_MOVED_TO:
 		stream << "IN_MOVED_TO" << endl;
 		return;
@@ -152,7 +147,6 @@ void Daemon::dispalyEvent(struct inotify_event *event) {
 	case IN_MOVE:
 		stream << "IN_MOVE" << endl;
 		return;
-		break;
 	case IN_CREATE:
 		stream << "IN_CREATE" << endl;
 		break;
@@ -165,7 +159,6 @@ void Daemon::dispalyEvent(struct inotify_event *event) {
 	case IN_MOVE_SELF:
 		stream << "IN_MOVE_SELF" << endl;
 		return;
-		break;
 	case IN_CREATE | IN_ISDIR:
 		stream << "IN_CREATE | IN_ISDIR" << endl;
 		setWatcher(abs_pwd.str());
@@ -176,7 +169,6 @@ void Daemon::dispalyEvent(struct inotify_event *event) {
 	default:
 		stream << "ENOTHER_EVENT" << endl;
 		return;
-		break;
 	}
 	my_print(LOG_INFO, stream.str());
 }
